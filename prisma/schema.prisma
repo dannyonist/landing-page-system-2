@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         UserRole @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  variants Variant[] @relation("variantCreator")
+}
+
+model Client {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String?  @db.Text
+  customDomain String?  @unique
+  brandTokens  Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  designs Design[]
+}
+
+model Design {
+  id          String   @id @default(cuid())
+  clientId    String
+  slug        String
+  name        String
+  description String?  @db.Text
+  baseHtml    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  client           Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  variants         Variant[]
+  planningMessages PlanningMessage[]
+
+  @@unique([clientId, slug])
+}
+
+model Variant {
+  id          String   @id @default(cuid())
+  designId    String
+  slug        String
+  name        String
+  html        String
+  prompt      String?
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  design    Design    @relation(fields: [designId], references: [id], onDelete: Cascade)
+  createdBy User?     @relation("variantCreator", fields: [createdById], references: [id])
+  messages  Message[]
+
+  @@unique([designId, slug])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+model Message {
+  id        String      @id @default(cuid())
+  variantId String
+  role      MessageRole
+  content   String
+  createdAt DateTime    @default(now())
+
+  variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId, createdAt])
+}
+
+model PlanningMessage {
+  id            String      @id @default(cuid())
+  designId      String
+  role          MessageRole
+  content       String
+  proposalsJson String?     @db.Text
+  createdAt     DateTime    @default(now())
+
+  design Design @relation(fields: [designId], references: [id], onDelete: Cascade)
+
+  @@index([designId, createdAt])
+}
