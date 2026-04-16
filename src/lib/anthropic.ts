@@ -12,8 +12,7 @@ export const MODELS = {
 } as const;
 
 // Legacy export for existing code (planner uses this)
-export const MODEL = MODELS.SONNET;
+export const MODEL = MODELS.OPUS;
 
-// Editor uses Haiku 4.5 — 3-5x faster than Sonnet for tool use on large HTML contexts.
-// Planner stays on Sonnet for strategic reasoning.
-export const EDITOR_MODEL = MODELS.HAIKU;
+// Editor uses Opus 4.6 for highest quality output.
+export const EDITOR_MODEL = MODELS.OPUS;
