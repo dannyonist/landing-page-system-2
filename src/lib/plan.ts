@@ -140,13 +140,13 @@ export async function planVariants({
   });
   const response = await stream.finalMessage();
 
-  const textBlocks = response.content.filter(
-    (c): c is { type: "text"; text: string } => c.type === "text",
-  );
-  const toolUse = response.content.find(
-    (c): c is { type: "tool_use"; name: string; input: unknown; id: string } =>
-      c.type === "tool_use",
-  );
+  const textBlocks = response.content.filter((c) => c.type === "text") as Array<{
+    type: "text";
+    text: string;
+  }>;
+  const toolUse = response.content.find((c) => c.type === "tool_use") as
+    | { type: "tool_use"; name: string; input: unknown; id: string }
+    | undefined;
 
   const reply = textBlocks.map((b) => b.text).join("\n\n").trim();
 

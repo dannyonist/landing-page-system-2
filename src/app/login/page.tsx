@@ -10,7 +10,7 @@ export default function LoginPage() {
               <path d="M3 12L8 7L12 11L21 4M21 4H15M21 4V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h1 className="text-xl font-semibold tracking-tight">Landing Page Studio</h1>
+          <h1 className="text-xl font-semibold tracking-tight">Orive Landing Page Studio</h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">Sign in to your workspace</p>
         </div>
         <div className="bg-white dark:bg-stone-900 p-6 rounded-xl border border-stone-200 dark:border-stone-800">

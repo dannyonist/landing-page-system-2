@@ -21,7 +21,7 @@ export default async function DashboardLayout({
               </svg>
             </span>
             <span className="font-semibold tracking-tight">
-              Landing Page Studio
+              Orive Landing Page Studio
             </span>
           </Link>
           <div className="flex items-center gap-4">

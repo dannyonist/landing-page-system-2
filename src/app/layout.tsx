@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Landing Page Studio",
+  title: "Orive Landing Page Studio",
   description: "Internal landing page system",
 };
 
